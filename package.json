@@ -1,0 +1,21 @@
+{
+  "name": "installer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "installer.js",
+  "bin": "installer.js",
+  "scripts": {
+    "build": "pkg . --output distInstall/installer.exe"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.1"
+  },
+  "pkg": {
+    "assets": [
+      "assets/**/*"
+    ],
+    "targets": [
+      "node16-win-x64"
+    ]
+  }
+}

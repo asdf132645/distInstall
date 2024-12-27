@@ -1,0 +1,45 @@
+/// <reference types="node" />
+import * as net from 'net';
+import { Server, Socket } from 'socket.io';
+import { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
+import { LoggerService } from '../logger.service';
+import { RuningInfoService } from '../runingInfo/runingInfo.service';
+import { BrowserService } from '../browserExit/browser.service';
+export declare class CombinedService implements OnGatewayConnection, OnGatewayDisconnect {
+    private readonly logger;
+    private readonly runingInfoService;
+    private readonly browserService;
+    wss: Server;
+    connectedClient: net.Socket | null;
+    count: number;
+    reqArr: any;
+    prevReqDttm: string | null;
+    clients: Socket[];
+    notRes: boolean;
+    private serverIp;
+    private reconnectAttempts;
+    private maxReconnectAttempts;
+    private reconnectDelay;
+    private mainPc;
+    private isNotDownloadOrUploading;
+    private tcpQueue;
+    private isProcessing;
+    private runningJobCmd;
+    constructor(logger: LoggerService, runingInfoService: RuningInfoService, browserService: BrowserService);
+    afterInit(server: Server): void;
+    handleDisconnect(client: Socket): Promise<void>;
+    broadcastDisconnectedClient(): Promise<void>;
+    extractIPAddress(inputString: string | string[]): string | null;
+    handleConnection(client: Socket): Promise<void>;
+    webSocketGetData(message: any): void;
+    sendDataToWebSocketClients(data: any): void;
+    sendDataToEmbeddedServer(data: any): void;
+    private processQueue;
+    stopTcpServer(): void;
+    setupTcpServer(newAddress: string, newPort: number): void;
+    private handleReconnectFailure;
+    sendIsDownloadUploadFinished(type: 'upload' | 'download'): void;
+    private handleJobcmd;
+    private getNotRunningJob;
+    private reSendProcessQueue;
+}
